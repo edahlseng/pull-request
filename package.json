@@ -1,0 +1,40 @@
+{
+  "name": "pull-request",
+  "version": "0.1.0",
+  "description": "Pull Request",
+  "main": "dist/index.js",
+  "dependencies": {
+    "@eric.dahlseng/cli-tools": "^0.1.0",
+    "fantasy-combinators": "0.0.1",
+    "fantasy-land": "^3.5.0",
+    "fluture": "^8.0.2",
+    "ramda": "^0.25.0"
+  },
+  "devDependencies": {
+    "@eric.dahlseng/linter-configuration": "^0.1.2",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-flow": "^6.23.0",
+    "flow-bin": "^0.77.0",
+    "sanctuary-identity": "^1.0.0",
+    "sanctuary-type-classes": "^9.0.0",
+    "sanctuary-useless": "^1.0.0"
+  },
+  "scripts": {
+    "build": "rm -rf ./dist && babel app --out-dir dist --source-maps inline",
+    "dev": "babel-node app/index.js",
+    "flow": "flow check",
+    "prepare": "npm run build"
+  },
+  "author": "",
+  "babel": {
+    "presets": [
+      "flow"
+    ],
+    "plugins": [
+      "transform-es2015-modules-commonjs",
+      "transform-object-rest-spread"
+    ]
+  }
+}
