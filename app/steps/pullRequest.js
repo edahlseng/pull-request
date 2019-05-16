@@ -28,6 +28,8 @@ const loadJson = App.fromFuture(loadJsonF);
 
 const label = x => App.log(`\n${x}\n`);
 
+// TODO: this is the wrong location for this todo, but we should change the subnames for branches to the plural form
+
 // Helpers
 // TODO: check if there is execute permission within the executeCommandInheritStdout function
 const runF = executeCommandInheritStdout;
@@ -140,9 +142,8 @@ const runChecks = pipe(
 // Update Remote
 // -----------------------------------------------------------------------------
 
-const requestPushBranch = config => {
-	console.log(config);
-	return singlePrompt({
+const requestPushBranch = config =>
+	singlePrompt({
 		type: "confirm",
 		message:
 			"The origin remote does not have your current local branch. Would you like to push this branch to origin?",
@@ -153,7 +154,6 @@ const requestPushBranch = config => {
 				? runF(`git push --set-upstream origin ${config.currentBranch}`)
 				: Future.reject()
 	);
-};
 
 const requestForcePush = () =>
 	singlePrompt({
