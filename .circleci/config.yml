@@ -1,0 +1,74 @@
+version: 2.1
+
+orbs:
+  general: edahlseng/general@1.22.0
+
+workflows:
+  main:
+    jobs:
+      - general/install-dependencies-npm
+      - general/lint-commit:
+          requires:
+            - general/install-dependencies-npm
+      - general/lint-js:
+          requires:
+            - general/install-dependencies-npm
+      - general/lint-json:
+          requires:
+            - general/install-dependencies-npm
+      - general/lint-yaml:
+          requires:
+            - general/install-dependencies-npm
+      - general/validate-js:
+          requires:
+            - general/install-dependencies-npm
+      - general/build:
+          executor: general/node
+          requires:
+            - general/install-dependencies-npm
+      - general/test:
+          executor: general/node
+          requires:
+            - general/build
+      - general/create-release-pr:
+          context: Release Bot
+          git-ssh-fingerprint: 7d:5c:a3:d1:b5:5d:bf:99:38:b9:3f:79:78:d9:8c:b1
+          git-user-email: edahlseng@users.noreply.github.com
+          git-user-name: "Release Bot"
+          github-access-token: $RELEASE_BOT_GITHUB_TOKEN
+          requires:
+            - general/lint-commit
+            - general/lint-js
+            - general/lint-json
+            - general/lint-yaml
+            - general/validate-js
+            - general/build
+            - general/test
+          filters:
+            branches:
+              only: master
+      - general/tag-and-publish-npm:
+          context: NPM Publish - @eric.dahlseng
+          git-ssh-fingerprint: 7d:5c:a3:d1:b5:5d:bf:99:38:b9:3f:79:78:d9:8c:b1
+          git-user-email: edahlseng@users.noreply.github.com
+          git-user-name: "Release Bot"
+          npm-authentication-token: $NPM_AUTH_TOKEN
+          requires:
+            - general/lint-commit
+            - general/lint-js
+            - general/lint-json
+            - general/lint-yaml
+            - general/validate-js
+            - general/build
+            - general/test
+          filters:
+            branches:
+              only: master
+      - general/create-github-release:
+          context: Release Bot
+          github-access-token: $RELEASE_BOT_GITHUB_TOKEN
+          requires:
+            - general/tag-and-publish-npm
+          filters:
+            branches:
+              only: master
