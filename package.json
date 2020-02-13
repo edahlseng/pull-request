@@ -1,10 +1,11 @@
 {
-  "name": "pull-request",
+  "name": "@eric.dahlseng/pull-request",
   "version": "0.1.0",
   "description": "Pull Request",
-  "main": "dist/index.js",
+  "bin": "dist/index.js",
   "dependencies": {
     "@eric.dahlseng/cli-tools": "^0.1.0",
+    "@eric.dahlseng/standard-version": "^1.1.0",
     "fantasy-combinators": "0.0.1",
     "fantasy-land": "^3.5.0",
     "fluture": "^8.0.2",
@@ -25,7 +26,8 @@
     "build": "rm -rf ./dist && babel app --out-dir dist --source-maps inline",
     "dev": "babel-node app/index.js",
     "flow": "flow check",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "release": "standard-version"
   },
   "author": "",
   "babel": {
@@ -36,5 +38,10 @@
       "transform-es2015-modules-commonjs",
       "transform-object-rest-spread"
     ]
+  },
+  "standard-version": {
+    "skip": {
+      "tag": true
+    }
   }
 }
